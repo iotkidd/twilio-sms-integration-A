@@ -37,4 +37,23 @@ router.delete('/deleteuser/:id', function(req, res){
     });
 });
 
+/*
+ * POST to textuser
+ */
+router.post('/textuser/:id', function(req,res){
+    var db = req.db;
+    var collection = db.get('userlist');
+    var userToText = req.params.id;
+    console.log('[******]server: /textuser');
+    collection.find( {'_id':userToText }, function(err,result){
+        res.send( (err===null)?{msg:'null'}:{msg:'error: '} 
+ //           if(err===null){
+ //               res.json(result); //temperary post, replace w/ text later
+ //           }else{
+ //               res.send( {msg:'error: '+err} );
+ //           };
+        );
+    });
+});
+
 module.exports = router;
