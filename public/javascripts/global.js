@@ -189,10 +189,11 @@ function textUser(event) {
         }).done(function( response ) {
 
             // Check for a successful (blank) response
-            if (response.msg === '') {
+            
+            if (response.msg == 'success') {
             }
             else {
-                alert('Error: ' + response.msg);
+                alert('Error: (' + response.msg +')');
             }
 
             // Update the table

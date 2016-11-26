@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var twilioClient = require('./twilioClient');
 
 /*
  * GET userlist
@@ -44,15 +45,17 @@ router.post('/textuser/:id', function(req,res){
     var db = req.db;
     var collection = db.get('userlist');
     var userToText = req.params.id;
-    console.log('[******]server: /textuser');
+    console.log('[*****]req.params.id('+req.params.id+')');
+    twilioClient.sendSms(userToText, 'message to text to dude');
+    console.log('[users/textuser]Seems to have sent SMS');
     collection.find( {'_id':userToText }, function(err,result){
-        res.send( (err===null)?{msg:'null'}:{msg:'error: '} 
- //           if(err===null){
- //               res.json(result); //temperary post, replace w/ text later
- //           }else{
- //               res.send( {msg:'error: '+err} );
- //           };
-        );
+        //  res.send( (err===null)?{msg:'null crap'}:{msg:'error poop'} 
+        if(err===null){
+            res.send( {msg:'success'} ); //temperary post, replace w/ text later
+        }else{
+            res.send( {msg:'error: '+err} );
+            console.log('[******]server: /textuser (%j)',result);
+        };
     });
 });
 

@@ -1,6 +1,6 @@
 //File: app.js
 var http = require('http');
-var config = require('./config');
+//var config = require('./config');
 
 var express = require('express');
 var path = require('path');
@@ -13,7 +13,8 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
 var csurf = require('csurf');
-var twilioNotifications = require('./twilioNotifications');
+//var twilioClient = require('./twilioClient');
+//var twilioNotifications = require('./twilioNotifications');
 
 // Database added tk
 var mongo = require('mongodb');
@@ -51,8 +52,11 @@ app.use('/users', users);
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
-  next(err);
+  next(err); //tk: for some reason, twilio doesn't have "next(err)"
 });
+
+// Mount middleware to notify Twilio of errors
+//app.use(twilioNotifications.notifyOnError);
 
 // error handlers
 
@@ -72,9 +76,10 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', {
+    res.render('error', {
+//        message: '***=>error',
     message: err.message,
-    error: {}
+      error: err
   });
 });
 

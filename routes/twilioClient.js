@@ -16,4 +16,5 @@ module.exports.sendSms = function(to, message) {
       console.log('Administrator notified');
     }
   });
+    console.log('[*****]yep, it did issue the call in twilioClient');
 };
